@@ -1,0 +1,87 @@
+# Checks the skill itself: the scaffold script's tests, then a generated project for each module
+# combination, run through the same gates as a real project's CI on PostgreSQL.
+# Third-party actions are pinned to full commit SHAs (Dependabot keeps them current).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scripts:
+    name: Scaffold script tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: template/base/.python-version
+      - name: Lint and format (scripts and tests; the template is checked in the generated projects)
+        run: |
+          pip install ruff==0.17.5
+          ruff check .
+          ruff format --check .
+      - run: python -m unittest discover -s tests -v
+
+  generated:
+    name: Generated project (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: core only
+            modules: ''
+          - label: website
+            modules: website
+          - label: crm
+            modules: crm
+          - label: website + crm
+            modules: website,crm
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_DB: app
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U app" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      # CI-like settings: the generated .env (DEBUG on) is ignored.
+      DJANGO_ENV_FILE: /dev/null
+      DATABASE_URL: postgresql://app:ci-only-password@localhost:5432/app?sslmode=disable
+      DJANGO_SECRET_KEY: ci-only-secret-key-not-used-anywhere-else-0123456789abcdef
+      DJANGO_SECURE_SSL_REDIRECT: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version-file: template/base/.python-version
+      - name: Scaffold (virtualenv, hashed pins, git)
+        run: python scripts/scaffold.py --name "CI Sample Shop" --tagline "Template check" --modules "${{ matrix.modules }}" --parent "$RUNNER_TEMP"
+      - name: Gates
+        working-directory: ${{ runner.temp }}/ci-sample-shop
+        run: |
+          . .venv/bin/activate
+          ruff check .
+          ruff format --check .
+          python manage.py dbcheck --before-migrate
+          python manage.py migrate --noinput
+          python manage.py dbcheck
+          python manage.py makemigrations --check --dry-run
+          DJANGO_ALLOWED_HOSTS=example.com python manage.py check --deploy --fail-level WARNING
+          coverage run manage.py test --noinput
+          coverage report
+          bandit -q -c pyproject.toml -r . -x './.venv,./staticfiles,*/tests/*,*/tests.py' -ll
+          pip-audit --require-hashes -r requirements.txt --strict

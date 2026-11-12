@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{# STARTER-TODO: the design pass rewrites this page from the brief: structure from the reference site, the owner's images (static/img), real copy in the site's language. #}
+
+{% block title %}{{ site_info.name }}{% if site_info.tagline %} | {{ site_info.tagline }}{% endif %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'pages/site.css' %}">{% endblock %}
+
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container site-container hero__grid">
+    <div>
+      <h1 class="hero__title" id="hero-title">{{ site_info.name }}</h1>
+      <p class="hero__lede">{{ site_info.tagline }}</p>
+      <div class="actions">
+        {% if 'crm' in site_info.modules %}<a class="btn-site btn-site--primary" href="{% url 'crm:contact' %}">{% translate "Get in touch" %}</a>{% endif %}
+        {% if site_info.phone %}<a class="btn-site btn-site--quiet" href="{{ site_info.phone_href }}">{% blocktranslate with phone=site_info.phone %}Call {{ phone }}{% endblocktranslate %}</a>{% endif %}
+      </div>
+    </div>
+    <div class="hero__media" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="offer-title">
+  <div class="container site-container">
+    <h2 class="section__title" id="offer-title">What we offer</h2>
+    <div class="feature-grid">
+      <article class="feature"><h3>First offering</h3><p>One sentence about it.</p></article>
+      <article class="feature"><h3>Second offering</h3><p>One sentence about it.</p></article>
+      <article class="feature"><h3>Third offering</h3><p>One sentence about it.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="about-title">
+  <div class="container site-container prose">
+    <h2 class="section__title" id="about-title">{% translate "About us" %}</h2>
+    <p>A short introduction to the business.</p>
+    <a class="btn-site btn-site--quiet" href="{% url 'pages:about' %}">{% translate "More about us" %}</a>
+  </div>
+</section>
+{% endblock %}

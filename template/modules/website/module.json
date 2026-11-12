@@ -1,0 +1,23 @@
+{
+  "name": "website",
+  "order": 1,
+  "title": "Website",
+  "summary": "Public pages in the style of the reference site: home, about, privacy policy, and terms of use. Product and service pages appear here when Catalog is added.",
+  "stage": "v1",
+  "status": "available",
+  "apps": [
+    "pages"
+  ],
+  "urls": [
+    [
+      "",
+      "pages.urls"
+    ]
+  ],
+  "depends_on": [],
+  "personal_data": false,
+  "requirements": [],
+  "env": [],
+  "settings": [],
+  "controls": []
+}

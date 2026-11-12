@@ -1,0 +1,12 @@
+# Keeps the pinned GitHub Actions current, in this repository's CI and in the template's CI.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /template/base
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']

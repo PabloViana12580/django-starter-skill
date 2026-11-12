@@ -1,0 +1,23 @@
+[
+  {
+    "name": "catalog",
+    "title": "Catalog",
+    "stage": "v2",
+    "depends_on": [],
+    "summary": "Products and services: categories, prices, photos, stock for products, duration for services. Feeds the website's product/service pages, Scheduling, and Commerce."
+  },
+  {
+    "name": "scheduling",
+    "title": "Scheduling",
+    "stage": "v2",
+    "depends_on": ["crm", "catalog"],
+    "summary": "Appointments for services: staff/teams with their own calendars, opening hours and days off, booking requests confirmed by staff, no double booking (enforced by the database), confirm/cancel links, calendar files."
+  },
+  {
+    "name": "commerce",
+    "title": "Commerce",
+    "stage": "v3",
+    "depends_on": ["crm", "catalog"],
+    "summary": "Cart, guest checkout, orders, receipts; payments through swappable providers: pay later (cash, transfer) and Stripe hosted checkout."
+  }
+]

@@ -1,0 +1,11 @@
+# Lint settings for the skill's own scripts and tests (the template has its own pyproject.toml).
+[tool.ruff]
+line-length = 130
+target-version = "py313"
+extend-exclude = ["template"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.ruff.format]
+quote-style = "single"

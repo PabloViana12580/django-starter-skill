@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{# STARTER-TODO: write the owner's story from the brief, in the site's language. #}
+
+{% block title %}{% translate "About" %} | {{ site_info.name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container site-container prose">
+    <h1 class="page-title">{% translate "About" %} {{ site_info.name }}</h1>
+    <p class="page-lede">{{ site_info.tagline }}</p>
+    <p>Who the business is, who it serves, and what makes it different.</p>
+  </div>
+</section>
+{% endblock %}
