@@ -80,7 +80,7 @@ jobs:
           python manage.py migrate --noinput
           python manage.py dbcheck
           python manage.py makemigrations --check --dry-run
-          DJANGO_ALLOWED_HOSTS=example.com python manage.py check --deploy --fail-level WARNING
+          DJANGO_SECURE_SSL_REDIRECT=true DJANGO_ALLOWED_HOSTS=example.com python manage.py check --deploy --fail-level WARNING
           coverage run manage.py test --noinput
           coverage report
           bandit -q -c pyproject.toml -r . -x './.venv,./staticfiles,*/tests/*,*/tests.py' -ll

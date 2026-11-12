@@ -52,6 +52,7 @@ jobs:
       - name: Deployment checklist (production settings)
         env:
           DJANGO_ALLOWED_HOSTS: example.com
+          DJANGO_SECURE_SSL_REDIRECT: 'true'  # the job turns it off so the tests can use plain HTTP
         run: python manage.py check --deploy --fail-level WARNING
       - name: Tests with coverage
         run: |
