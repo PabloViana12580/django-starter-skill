@@ -24,6 +24,10 @@ class SiteShellTests(TestCase):
     def test_phone_link_uses_digits_only(self):
         self.assertContains(self.client.get('/'), 'href="tel:+18605550100"')
 
+    def test_favicon_ico_points_to_the_site_icon(self):
+        response = self.client.get('/favicon.ico')
+        self.assertRedirects(response, '/static/img/favicon.svg', status_code=301, fetch_redirect_response=False)
+
     def test_footer_offers_staff_sign_in(self):
         self.assertContains(self.client.get('/'), 'href="/accounts/login/"')
 

@@ -38,7 +38,9 @@ Skill folder: this file's directory (`SKILL_DIR`). Scripts are standard-library 
    `python SKILL_DIR/scripts/scaffold.py --name "<Name>" --modules <a,b> --tagline "<tagline>" --language <xx> --time-zone <Area/City> [--copyright "<holder>"]`
    Default parent folder: `%USERPROFILE%\OneDrive\Documentos\`. It creates `.venv` with pinned,
    hashed dependencies (a few minutes), `.env` with a fresh secret key, `src/images/`, and `git init`.
-4. **No-database checks** in the new folder: `.venv/Scripts/python.exe manage.py check`.
+4. **No-database checks** in the new folder (settings refuse to load without a database, and `check`
+   never connects, so give it a placeholder):
+   `DATABASE_URL=postgresql://check:check@localhost/check .venv/Scripts/python.exe manage.py check`.
 5. **GitHub repository:** `python SKILL_DIR/scripts/github_setup.py create <project>`
    (public, remote `origin`, nothing pushed yet).
 6. **Hand over and stop.** Tell the user, in one message:
