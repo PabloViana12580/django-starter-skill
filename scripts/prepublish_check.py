@@ -80,7 +80,8 @@ def main(argv):
     else:
         files = [project / name for name in listing.stdout.split('\0') if name]
 
-    secrets = sensitive_strings(env_values(env_file)) if env_file.exists() else []
+    # (label, value) pairs from .env that must not appear in any committable file.
+    watched = sensitive_strings(env_values(env_file)) if env_file.exists() else []
     for path in files:
         if not path.is_file():
             continue
@@ -92,8 +93,8 @@ def main(argv):
         except UnicodeDecodeError:
             continue
         relative = path.relative_to(project)
-        for label, secret in secrets:
-            if secret in text:
+        for label, value in watched:
+            if value in text:
                 problems.append(f'{relative} contains the {label} from .env.')
         if PLACEHOLDER in text:
             problems.append(f'{relative} still has a {PLACEHOLDER} placeholder.')
@@ -103,7 +104,7 @@ def main(argv):
         for problem in problems:
             print(f'  - {problem}')
         return 1
-    print(f'Pre-publish check passed: {len(files)} files, {len(secrets)} secret values checked.')
+    print(f'Pre-publish check passed: {len(files)} files, {len(watched)} .env values checked.')
     return 0
 
 

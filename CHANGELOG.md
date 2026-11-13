@@ -3,6 +3,11 @@
 Versions of the django-starter skill and its template ([SemVer](https://semver.org/)).
 Projects record the version they were created with in `.starter.json`.
 
+## [Unreleased]
+
+### Changed
+- `prepublish_check.py`: clearer variable names (CodeQL read a count of checked values as logged secrets).
+
 ## [0.1.0] - 2026-11-12
 
 ### Added
