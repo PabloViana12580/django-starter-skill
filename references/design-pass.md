@@ -7,7 +7,13 @@ follow it (design plan, review against the brief, build, critique with screensho
 
 - The brief (business, audience, tagline, language).
 - The reference website: fetch it and note its **structure** (navigation, section order, calls
-  to action). Don't copy its text. Use its images only if the user owns them.
+  to action). Don't copy its text. Use its images only if the user owns them. Text extraction does
+  not show colors or fonts: render the page in headless Chrome (Playwright) and read the computed
+  background and text colors and font families, or the theme's CSS variables. When the brief says
+  to copy the colors, those values win. Treat counters, testimonials, emails, and social links on
+  template-built sites as possibly unfinished: confirm before reusing them as facts.
+- Social-media graphics (photo inside a frame with text and a phone number): publish only the photo
+  with `src/images/crops.json` (see `src/images/README.md` in the project).
 - The user's images: `src/images/` > `manage.py optimize_images` > `static/img/*.webp`.
 - Brand colors and fonts if given; otherwise choose them.
 

@@ -61,7 +61,7 @@ holds no other project's tables, and (after `migrate`) that every table has row 
 | `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` | Alternative | Individual connection settings. |
 | `DB_SSLMODE`, `DB_SSLROOTCERT` | No | TLS mode (default `require`) and CA file, or `system` for the OS trust store. |
 | `DB_CONN_MAX_AGE` | No | Seconds to reuse connections (default 60). |
-| `SITE_NAME`, `SITE_TAGLINE`, `SITE_URL`, `SITE_EMAIL`, `SITE_PHONE`, `SITE_ADDRESS`, `SITE_HOURS` | `SITE_URL` in production | Site identity and contact details shown on every page; `SITE_URL` is used in email links. |
+| `SITE_NAME`, `SITE_TAGLINE`, `SITE_URL`, `SITE_EMAIL`, `SITE_PHONE`, `SITE_ADDRESS`, `SITE_HOURS`, `SITE_WHATSAPP` | `SITE_URL` in production | Site identity and contact details shown on every page; `SITE_URL` is used in email links. |
 | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL` | To send email | SMTP settings. Without `EMAIL_HOST`, emails are printed to the log. |
 | `STAFF_MFA_REQUIRED` | No | Two-factor sign-in for staff (default on when a module stores personal data). |
 | `PASSWORD_MIN_LENGTH` | No | Default 12. |
@@ -82,6 +82,10 @@ Tests cover the starter's core features and each module's core features. They ne
 role that can create databases: Django creates `test_<dbname>` on the configured server and drops
 it afterwards (`config/test_runner.py` uses `WITH (FORCE)` because poolers keep a connection open).
 If the role can't create databases, run the tests against a local PostgreSQL instead.
+
+Tests run with the interface in English whatever language the site uses (also set in
+`config/test_runner.py`), so assertions on interface text hold for every site. A test about a
+translation selects its language with `override_settings(LANGUAGE_CODE=...)`.
 
 CI (`.github/workflows/ci.yml`) runs on every push: ruff lint and format, migrations check,
 `check --deploy` with production settings, tests with coverage (minimum in `pyproject.toml`) on a
@@ -106,9 +110,13 @@ Any platform that runs Python or containers works; deployment is a separate step
 
 ## Images and fonts
 
-Put the owner's originals in `src/images/` and run `manage.py optimize_images`: WebP copies (max
-2000 px wide, orientation fixed, metadata removed) go to `static/img/` and are listed in
-`static/img/CREDITS.md`. Fonts are self-hosted: `.woff2` files and their license in
+Put the owner's originals in `src/images/` and run `manage.py optimize_images`. It removes hidden
+data from the originals in place without re-encoding them (GPS position, camera, author, comments,
+C2PA content credentials), because the repository is public; writes WebP copies (max 2000 px wide,
+orientation fixed, no metadata) to `static/img/` and lists them in `static/img/CREDITS.md`; and,
+with `src/images/crops.json`, publishes only regions of an original (the photo inside a social-media
+graphic, for example; see `src/images/README.md`). `test_committed_images_carry_no_hidden_data`
+fails while any committed image still carries hidden data. Fonts are self-hosted: `.woff2` files and their license in
 `static/fonts/`, `@font-face` rules in `static/css/fonts.css`, and the `--font-*` tokens in
 `static/css/app.css`.
 

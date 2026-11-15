@@ -12,6 +12,7 @@
       <p class="page-lede">{% translate "Send us a message and we'll get back to you." %}</p>
       <dl class="contact-details">
         {% if site_info.phone %}<div><dt>{% translate "Phone" %}</dt><dd><a href="{{ site_info.phone_href }}">{{ site_info.phone }}</a></dd></div>{% endif %}
+        {% if site_info.whatsapp_href %}<div><dt>WhatsApp</dt><dd><a href="{{ site_info.whatsapp_href }}">{{ site_info.whatsapp }}</a></dd></div>{% endif %}
         {% if site_info.email %}<div><dt>{% translate "Email" %}</dt><dd><a href="mailto:{{ site_info.email }}">{{ site_info.email }}</a></dd></div>{% endif %}
         {% if site_info.hours %}<div><dt>{% translate "Hours" %}</dt><dd>{{ site_info.hours }}</dd></div>{% endif %}
         {% if site_info.address %}<div><dt>{% translate "Where" %}</dt><dd>{{ site_info.address }}</dd></div>{% endif %}

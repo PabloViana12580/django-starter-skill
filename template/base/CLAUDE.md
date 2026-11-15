@@ -60,5 +60,6 @@ URLs: `/healthz`, `/readyz`, `/csp-report/`, `/accounts/login/`, `/accounts/logo
 - **Two-factor**: on by default when a module stores personal data (`STAFF_MFA_REQUIRED`). Locally you can set `STAFF_MFA_REQUIRED=false` in `.env` while developing.
 - **Rate limits** use the in-process cache: keep one gunicorn worker (threads are fine) or move the cache to a shared backend.
 - **Client addresses** behind a proxy depend on `DJANGO_TRUSTED_PROXY_COUNT`; set it per hosting platform (docs/DEVELOPER.md).
+- **Tests and language**: tests run with the interface in English whatever `LANGUAGE_CODE` is (`config/test_runner.py`). Assert interface text in English; for a translation test use `override_settings(LANGUAGE_CODE=...)`. Page copy written in the site's language is not affected.
 - **Line endings**: `.gitattributes` keeps LF everywhere.
 - **Placeholders**: `STARTER-TODO` marks text the project still has to replace (home, about, legal pages); none may remain at release.

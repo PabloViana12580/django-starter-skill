@@ -193,7 +193,7 @@ def database_from_env():
 DATABASES = {'default': database_from_env()}
 
 # Drops the temporary test database even when a pooler keeps a connection to it.
-TEST_RUNNER = 'config.test_runner.PoolerSafeTestRunner'
+TEST_RUNNER = 'config.test_runner.ProjectTestRunner'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -203,13 +203,18 @@ CACHES = {'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
 # Site identity (shown on every page through core.context_processors.site)
 
 SITE_NAME = env_str('SITE_NAME', '__PROJECT_NAME__')
-SITE_TAGLINE = env_str('SITE_TAGLINE', '__PROJECT_TAGLINE__')
+SITE_TAGLINE = env_str(
+    'SITE_TAGLINE',
+    '__PROJECT_TAGLINE__',
+)
 # Public base URL, used for links in emails (no trailing slash).
 SITE_URL = env_str('SITE_URL', 'http://127.0.0.1:8000').rstrip('/')
 SITE_EMAIL = env_str('SITE_EMAIL', 'hello@example.com')
 SITE_PHONE = env_str('SITE_PHONE')
 SITE_ADDRESS = env_str('SITE_ADDRESS')
 SITE_HOURS = env_str('SITE_HOURS')
+# WhatsApp number for "write to us" links, in international format (+502 5555 0100).
+SITE_WHATSAPP = env_str('SITE_WHATSAPP')
 
 
 # Authentication: Django accounts for staff, no public sign-up.
@@ -393,6 +398,11 @@ STORAGES = {
 # by `manage.py optimize_images`.
 IMAGES_SOURCE_DIR = BASE_DIR / 'src' / 'images'
 IMAGES_OUTPUT_DIR = BASE_DIR / 'static' / 'img'
+# Content Credentials (C2PA) are a signed record of how an image was made, for example with
+# an AI tool. `optimize_images` removes them from the committed images together with the
+# other hidden data. Set True to keep them: those files are then left completely untouched,
+# because the record stops being valid when anything else in the file changes.
+IMAGES_KEEP_CREDENTIALS = False
 
 
 # Business modules (settings added by each module; see config/modules.py)

@@ -35,7 +35,7 @@ practices; NIST CSF = CSF 2.0 subcategories; ISO 27002 = ISO/IEC 27002:2022 cont
 | C20 | Security event logging (sign-in, failures, lockouts, two-factor, CSP, spam), UTC timestamps, no secrets | `core/signals.py`, `LOGGING`, `core/logformat.py` | `test_operations.SecurityLogTests` | V16.3.1, V16.3.3, V16.2.1, V16.2.2, V16.2.5, V16.4.1 | RV.1 | PR.PS-04, DE.CM-09 | 8.15, 8.16 |
 | C21 | Generic error pages without details; standalone 500 page | `templates/4xx-5xx.html`, `error_base.html` | `test_operations.ErrorPageTests` | V16.5.1, V16.5.3 | PW.9 | PR.PS-01 | 8.26 |
 | C22 | Health and readiness probes | `/healthz`, `/readyz` | `test_operations.ProbeTests` | V16.5.2 | PW.9 | DE.CM-09 | 8.16 |
-| C23 | Image metadata removed (location, camera) before publishing | `optimize_images` | `test_images` | V14.2.3 | PW.5 | PR.DS-01 | 5.34 |
+| C23 | Hidden image data removed (location, camera, author, comments, C2PA credentials) from the committed originals and the published copies | `core/imagemeta.py`, `optimize_images` | `test_images`, including `test_committed_images_carry_no_hidden_data` | V14.2.3 | PW.5 | PR.DS-01 | 5.34 |
 | C24 | Dependency pinning with hashes; weekly updates; vulnerability audit in CI | `requirements*.txt` (pip-tools), Dependabot, pip-audit | CI | V15.1.1, V15.2.1 | PW.4, RV.1 | ID.RA-01, PR.PS-02 | 8.8 |
 | C25 | Software bill of materials per build | pip-audit CycloneDX | CI artifact `sbom` | V15.1.2 | PS.3 | ID.AM-08 | 8.8 |
 | C26 | Static analysis and code scanning | ruff (incl. security rules), bandit, CodeQL default setup | CI, GitHub code scanning | - | PW.7 | ID.RA-01 | 8.29 |

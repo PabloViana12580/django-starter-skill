@@ -11,6 +11,7 @@
         <h2 class="site-footer__title">{% translate "Contact" %}</h2>
         <ul class="site-footer__list">
           {% if site_info.phone %}<li><a href="{{ site_info.phone_href }}">{{ site_info.phone }}</a></li>{% endif %}
+          {% if site_info.whatsapp_href %}<li><a href="{{ site_info.whatsapp_href }}">WhatsApp</a></li>{% endif %}
           {% if site_info.email %}<li><a href="mailto:{{ site_info.email }}">{{ site_info.email }}</a></li>{% endif %}
           {% if site_info.address %}<li>{{ site_info.address }}</li>{% endif %}
           {% if site_info.hours %}<li>{{ site_info.hours }}</li>{% endif %}

@@ -352,7 +352,9 @@ def parse_args(argv):
     parser.add_argument(
         '--parent', default=str(DEFAULT_PARENT), help=f'Folder to create the project in (default: {DEFAULT_PARENT}).'
     )
-    parser.add_argument('--python', default=sys.executable, help='Python 3.13 interpreter for the virtualenv.')
+    # The base interpreter, not another project's virtualenv that happens to run this script.
+    base_python = getattr(sys, '_base_executable', '') or sys.executable
+    parser.add_argument('--python', default=base_python, help='Python 3.13 interpreter for the virtualenv.')
     parser.add_argument('--no-venv', action='store_true', help='Skip creating .venv and installing dependencies.')
     parser.add_argument('--no-git', action='store_true', help='Skip git init.')
     return parser.parse_args(argv)
