@@ -4,7 +4,7 @@ Collect these before scaffolding. Ask only for what's missing, in one round.
 
 | Field | Required | Default | Notes |
 | --- | --- | --- | --- |
-| Project name | Yes | - | Display name, e.g. "Brightwell Home Cleaning". The folder and repository use its slug (`brightwell-home-cleaning`); confirm the slug if the name has accents or symbols. |
+| Project name | Yes | - | Display name, e.g. "Brightwell Home Cleaning". The folder and repository use its slug (`brightwell-home-cleaning`); confirm the slug if the name has accents or symbols. Check the reference site and logo for the brand's own spelling (accents, capitals) and ask if it differs from the brief. |
 | Tagline | Yes | - | One sentence: what the business does, for whom, where. Used in titles, meta description, footer. |
 | Modules | Yes | `website,crm` for a business site | Show `scaffold.py --list-modules` and let the user choose. Planned modules can't be selected yet; say which stage brings them. |
 | Language | No | `en` | Site and docs language (`es` for Spanish). CLAUDE.md/AGENTS.md stay English. |

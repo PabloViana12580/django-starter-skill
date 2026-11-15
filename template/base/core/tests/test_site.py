@@ -28,6 +28,14 @@ class SiteShellTests(TestCase):
         response = self.client.get('/favicon.ico')
         self.assertRedirects(response, '/static/img/favicon.svg', status_code=301, fetch_redirect_response=False)
 
+    @override_settings(SITE_WHATSAPP='+502 5555-0100')
+    def test_whatsapp_link_uses_digits_only(self):
+        self.assertContains(self.client.get('/'), 'href="https://wa.me/50255550100"')
+
+    @override_settings(SITE_WHATSAPP='')
+    def test_no_whatsapp_link_without_a_number(self):
+        self.assertNotContains(self.client.get('/'), 'wa.me')
+
     def test_footer_offers_staff_sign_in(self):
         self.assertContains(self.client.get('/'), 'href="/accounts/login/"')
 

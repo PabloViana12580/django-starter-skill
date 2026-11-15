@@ -33,7 +33,7 @@ of data is stored.
 | Information disclosure | Database reachable through the provider's HTTP API | C4 row level security, C5 isolation |
 | Information disclosure | Data intercepted in transit | C3 database TLS, C13 HTTPS and HSTS, C11 cookies |
 | Information disclosure | Secrets or personal data committed to the public repository | C2 secret scanning, AGENTS.md rules |
-| Information disclosure | Photo metadata revealing locations | C23 metadata removal |
+| Information disclosure | Image metadata revealing locations, devices, or authors | C23 hidden-data removal from originals and copies |
 | Information disclosure | Error pages leaking internals | C21 generic errors, C1 DEBUG off |
 | Denial of service | Contact form flooding, log flooding | C18 rate limits, CSP report limits |
 | Elevation of privilege | Non-staff or unverified staff reaching the administration | `StaffAdminSite`, C9 two-factor gate |
